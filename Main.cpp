@@ -6,7 +6,7 @@ int main() {
     const int screenHeight = 450;
 
     // Initialize the Window
-    InitWindow(screenWidth, screenHeight, "My Game");
+    InitWindow(screenWidth, screenHeight, "Watch Out!");
 
     // Setting the Frames Per Second
     SetTargetFPS(60);
@@ -25,5 +25,5 @@ int main() {
         EndDrawing();
     }
     CloseWindow();
-    return
+    return 0;
 }
