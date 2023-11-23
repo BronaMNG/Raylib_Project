@@ -43,6 +43,8 @@ int main() {
             player.Move ({-5, 0});
         }
 
+      
+
         for (int i = 0; i< MAX_OBSTACLES; ++i){
             if(obstacles[i].IsOutOfScreen()){
                 float width = GetRandomValue(50, 200);
@@ -66,7 +68,7 @@ int main() {
         player.Draw();
 
     for(int i = 0; i<MAX_OBSTACLES; ++i){
-        obstacles[i].Draw();
+       obstacles[i].Draw();
     }
 
     DrawText(TextFormat("Score: %i", score), 10, 10, 20, LIGHTGRAY);
@@ -75,7 +77,7 @@ int main() {
         DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
     }
         // Clear canvas to a specific color to avoid flicker
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
         // Here goes all the Game Logic
 
