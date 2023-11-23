@@ -19,7 +19,7 @@ class Coins{
 
     void Draw();
 
-    void Update(Vector2);
+    void Update();
 
     bool CheckCollision(Vector2 playerPosition, float playerRadius);
 
