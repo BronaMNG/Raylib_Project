@@ -2,8 +2,8 @@
 
 Player::Player(Vector2 pos, float r, Color c)
 : position(pos),
-radius (r),
-color (c){}
+    radius (r),
+    color (c){}
 
 void Player ::Draw(){
     DrawCircleV(position, radius, color);

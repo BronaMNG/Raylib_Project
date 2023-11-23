@@ -1,4 +1,3 @@
-// Creating Player Class
 #ifndef Player_H
 #define Player_H
 
