@@ -6,6 +6,7 @@
 #include "Obstacle.h"
 
 const int MAX_OBSTACLES = 10;
+const int MAX_COINS = 5
 
 int main() {
     // Determin the Game Window Width and Height
