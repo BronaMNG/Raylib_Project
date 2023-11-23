@@ -9,11 +9,13 @@ class Coins{
     private:
     Vector2 position;
     float radius;
-    float speed;
     Color color;
+    float speed;
 
     public:
-   Coins(Vector2 pos, float r, Color c);
+    Coins(Vector2 pos, float r, Color c, float s);
+
+    Coins();
 
     void Draw();
 
@@ -22,5 +24,8 @@ class Coins{
     bool CheckCollision(Vector2 playerPosition, float playerRadius);
 
     bool IsOutOfScreen();
+};
+
+  
 
     #endif
