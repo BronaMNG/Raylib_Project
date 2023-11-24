@@ -53,7 +53,6 @@ int main() {
             player.Move ({-5, 0});
         }
 
-        player.Draw();
 
         for (int i = 0; i< MAX_OBSTACLES; ++i){
             if(obstacles[i].IsOutOfScreen()){
