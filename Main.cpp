@@ -39,12 +39,18 @@ int main() {
 
     int score = 0;
     bool gameOver = false;
+    bool pause = false;
 
 
     // The Game Loop
     while (!WindowShouldClose() /*WindowShouldClose returns true if esc is clicked and closes the window*/)
      { 
         if(!gameOver)
+
+         if (IsKeyPressed('P')) pause = !pause;
+
+        if (!pause)
+
         {
             if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
             player.Move ({5, 0});
