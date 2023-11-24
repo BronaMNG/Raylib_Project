@@ -65,7 +65,15 @@ int main() {
                 float width = GetRandomValue(50, 200);
                 obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth - (int)width), -20.0f}, {width, 20.0f}, RED, 4.0f);
             }
-            obstacles[i].Update();
+            obstacles[i].Update(); 
+        
+        for(int i = 0; i<MAX_COINS; ++i){
+            if(coins[i].IsOutOfScreen()){
+                float width = 10;
+                coins[i] = Coins({(float)10(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, YELLOW, 2.0f);
+            }
+             coins[i].Update(); 
+
 
             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
 
