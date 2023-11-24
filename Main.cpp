@@ -25,6 +25,15 @@ int main() {
         obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
     }
 
+    Coins coins[MAX_COINS];
+
+     for(int i = 0; i<MAX_COINS; ++i){
+        float width = 10;
+       coins[i] = Coins({(float)10(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, YELLOW, 2.0f);
+    }
+
+
+
     // Setting the Frames Per Second
     SetTargetFPS(60);
 
