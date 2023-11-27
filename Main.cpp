@@ -4,11 +4,13 @@
 
 #include "Player.h"
 #include "Obstacle.h"
+#include "Coins.h"
 
 const int MAX_OBSTACLES = 10;
-const int MAX_COINS = 5
+const int MAX_COINS = 5;
 
 int main() {
+
     // Determin the Game Window Width and Height
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -24,12 +26,11 @@ int main() {
         float width = GetRandomValue(50,200);
         obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
     }
-
+    
     Coins coins[MAX_COINS];
 
      for(int i = 0; i<MAX_COINS; ++i){
-        float width = 10;
-       coins[i] = Coins({(float)10(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, YELLOW, 2.0f);
+        coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 3.0f);
     }
 
 
@@ -47,7 +48,7 @@ int main() {
      { 
         if(!gameOver)
 
-         if (IsKeyPressed('P')) pause = !pause;
+         if (IsKeyPressed(KEY_P)) pause = !pause;
 
         if (!pause)
 
@@ -65,18 +66,20 @@ int main() {
                 float width = GetRandomValue(50, 200);
                 obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth - (int)width), -20.0f}, {width, 20.0f}, RED, 4.0f);
             }
-            obstacles[i].Update(); 
-        
-        for(int i = 0; i<MAX_COINS; ++i){
+            obstacles[i].Update();
+
+            
+        for (int i = 0; i< MAX_COINS; ++i){
             if(coins[i].IsOutOfScreen()){
-                float width = 10;
-                coins[i] = Coins({(float)10(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, YELLOW, 2.0f);
+                 coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 3.0f);
+                }
+           coins[i].Update();
+            
             }
-             coins[i].Update(); 
-
-
+            
+            
             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
-
+                
                 gameOver= true;
             }
 
@@ -93,8 +96,15 @@ int main() {
     for(int i = 0; i<MAX_OBSTACLES; ++i){
        obstacles[i].Draw();
     }
+    
+    for(int i = 0; i<MAX_COINS; ++i){
+       coins[i].Draw();
+    }
+
 
     DrawText(TextFormat("Score: %i", score), 10, 10, 20, LIGHTGRAY);
+
+    if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
 
     if(gameOver){
         DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
