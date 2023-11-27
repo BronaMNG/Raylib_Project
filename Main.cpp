@@ -48,7 +48,8 @@ int main() {
      { 
         if(!gameOver)
 
-         if (IsKeyPressed(KEY_P)) pause = !pause;
+         if (IsKeyPressed(KEY_SPACE))
+         pause = !pause;
 
         if (!pause)
 
