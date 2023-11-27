@@ -46,14 +46,13 @@ int main() {
     // The Game Loop
     while (!WindowShouldClose() /*WindowShouldClose returns true if esc is clicked and closes the window*/)
      { 
-        if(!gameOver)
+        if(!gameOver){
 
-         if (IsKeyPressed(KEY_SPACE))
+            if (IsKeyPressed(KEY_SPACE))
          pause = !pause;
          
-          if (!pause)
-        {
-             {
+          if (!pause){
+            {
             if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
             player.Move ({5, 0});
 
@@ -86,13 +85,14 @@ int main() {
 
             if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
 
-                score++;
+                 score++;
             }
             
             }
-        }
          
-
+        }
+        
+        }
         // Setup Canvas
         BeginDrawing();
 
