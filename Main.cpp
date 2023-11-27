@@ -50,16 +50,16 @@ int main() {
 
          if (IsKeyPressed(KEY_SPACE))
          pause = !pause;
-
-        if (!pause)
-
+         
+          if (!pause)
         {
+             {
             if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
             player.Move ({5, 0});
 
             if(IsKeyDown(KEY_A)&& player.GetPosition().x< screenWidth-player.GetRadius())
             player.Move ({-5, 0});
-        }
+             }
 
 
         for (int i = 0; i< MAX_OBSTACLES; ++i){
@@ -88,11 +88,10 @@ int main() {
 
                 score++;
             }
-
             
+            }
         }
-
-
+         
 
         // Setup Canvas
         BeginDrawing();
