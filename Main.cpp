@@ -85,7 +85,9 @@ int main() {
 
             if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
 
-                 score++;
+                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
+                
+                score++;
             }
             
             }
