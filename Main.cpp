@@ -6,7 +6,7 @@
 #include "Obstacle.h"
 #include "Coins.h"
 
-const int MAX_OBSTACLES = 10;
+const int MAX_OBSTACLES = 5;
 const int MAX_COINS = 5;
 
 int main() {
@@ -113,6 +113,7 @@ int main() {
 
     if(gameOver){
         DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
+
     }
         // Clear canvas to a specific color to avoid flicker
         ClearBackground(BLACK);
