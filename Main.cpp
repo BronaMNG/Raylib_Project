@@ -30,7 +30,7 @@ int main() {
     Coins coins[MAX_COINS];
 
      for(int i = 0; i<MAX_COINS; ++i){
-        coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 3.0f);
+        coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
     }
 
 
@@ -71,7 +71,7 @@ int main() {
             
         for (int i = 0; i< MAX_COINS; ++i){
             if(coins[i].IsOutOfScreen()){
-                 coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 3.0f);
+                 coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
                 }
            coins[i].Update();
             
