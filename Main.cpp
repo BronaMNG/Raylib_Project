@@ -80,10 +80,15 @@ int main() {
             
             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
                 
-                gameOver= true;
+                gameOver = true;
             }
 
-            score++;
+            if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+
+                score++;
+            }
+
+            
         }
 
 
