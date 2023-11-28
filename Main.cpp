@@ -39,6 +39,7 @@ int main() {
     SetTargetFPS(60);
 
     int score = 0;
+    int lives = 3;
     bool gameOver = false;
     bool pause = false;
 
@@ -60,7 +61,6 @@ int main() {
             player.Move ({-5, 0});
              }
 
-
         for (int i = 0; i< MAX_OBSTACLES; ++i){
             if(obstacles[i].IsOutOfScreen()){
                 float width = GetRandomValue(50, 200);
@@ -79,7 +79,13 @@ int main() {
             
             
             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                float width = GetRandomValue(50,200);
+                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
                 
+                lives --;
+            }
+
+            if(lives == 0){
                 gameOver = true;
             }
 
