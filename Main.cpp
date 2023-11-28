@@ -8,6 +8,7 @@
 
 const int MAX_OBSTACLES = 5;
 const int MAX_COINS = 5;
+int MAX_LIVES = 3;
 
 int main() {
 
@@ -19,6 +20,8 @@ int main() {
     InitWindow(screenWidth, screenHeight, "Watch Out!");
 
     Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
+    
+    for (int i = 0; i < MAX_LIVES; i++) DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
 
     Obstacle obstacles[MAX_OBSTACLES];
 
@@ -39,7 +42,6 @@ int main() {
     SetTargetFPS(60);
 
     int score = 0;
-    int lives = 3;
     bool gameOver = false;
     bool pause = false;
 
@@ -82,10 +84,10 @@ int main() {
                 float width = GetRandomValue(50,200);
                 obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
                 
-                lives --;
+                MAX_LIVES --;
             }
 
-            if(lives == 0){
+            if(MAX_LIVES == 0){
                 gameOver = true;
             }
 
@@ -105,6 +107,10 @@ int main() {
         BeginDrawing();
 
         player.Draw();
+
+        for (int i = 0; i < MAX_LIVES; i++){
+        DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
+        }
 
     for(int i = 0; i<MAX_OBSTACLES; ++i){
        obstacles[i].Draw();
