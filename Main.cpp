@@ -48,18 +48,22 @@ int main() {
 
     // The Game Loop
     while (!WindowShouldClose() /*WindowShouldClose returns true if esc is clicked and closes the window*/)
+
+     // gameplay logic
      { 
         if(!gameOver){
 
+            // pause functionality
             if (IsKeyPressed(KEY_SPACE))
-         pause = !pause;
+            pause = !pause;
          
           if (!pause){
             {
+            //player movement logic
             if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
             player.Move ({5, 0});
 
-            if(IsKeyDown(KEY_A)&& player.GetPosition().x< screenWidth-player.GetRadius())
+            if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetRadius())
             player.Move ({-5, 0});
              }
 
