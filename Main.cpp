@@ -36,13 +36,12 @@ int main(void)
         float width = GetRandomValue(50,200);
         obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
     }
-    
+   
     Coins coins[MAX_COINS];
 
      for(int i = 0; i<MAX_COINS; ++i){
         coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
     }
-
 
     SetTargetFPS(60);               
     int score = 0;
@@ -59,7 +58,10 @@ int main(void)
         {
             case TITLE:
             {
-
+                gameOver = false;
+                score = 0;
+                MAX_LIVES = 3;
+                
                 // Press enter to change to GAMEPLAY screen
                 if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
                 {
@@ -80,36 +82,38 @@ int main(void)
             {
                
                 if(!gameOver){
-
-            // pause functionality
-            if (IsKeyPressed(KEY_SPACE))
-            pause = !pause;
-         
-          if (!pause){
-            {
-            //player movement logic
-            if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
-            player.Move ({5, 0});
-
-            if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetRadius())
-            player.Move ({-5, 0});
-             }
-
-        for (int i = 0; i< MAX_OBSTACLES; ++i){
-            if(obstacles[i].IsOutOfScreen()){
-                float width = GetRandomValue(50, 200);
-                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth - (int)width), -20.0f}, {width, 20.0f}, RED, 4.0f);
-            }
-            obstacles[i].Update();
-
-            
-        for (int i = 0; i< MAX_COINS; ++i){
-            if(coins[i].IsOutOfScreen()){
-                 coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
-                }
-           coins[i].Update();
-            
-            }
+                    
+                    // pause functionality
+                    if (IsKeyPressed(KEY_SPACE))
+                    pause = !pause;
+                    
+                    if (!pause){
+                        
+                        //player movement logic
+                        if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
+                        player.Move ({5, 0});
+                        
+                        if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetRadius())
+                        player.Move ({-5, 0});
+                        }
+                        
+                        for (int i = 0; i< MAX_OBSTACLES; ++i){
+                             if(obstacles[i].IsOutOfScreen()){
+                                float width = GetRandomValue(50, 200);
+                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth - (int)width), -20.0f}, {width, 20.0f}, RED, 4.0f);
+                                }
+                            
+                            obstacles[i].Update();
+                            
+                        for (int i = 0; i< MAX_COINS; ++i){
+                            
+                            if(coins[i].IsOutOfScreen()){
+                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
+                                }
+                            
+                            coins[i].Update();
+                            
+                            }
             
             
             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
@@ -131,11 +135,11 @@ int main(void)
             }
             
             }
-         
-        }
-    
-     }
+            
             }
+
+            }
+
             } break;
 
             case ENDING:
@@ -195,7 +199,7 @@ int main(void)
                     DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 240, 260, 12, LIGHTGRAY);
 
                 } break;
-                
+
                 default: break;
             }
 
