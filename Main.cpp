@@ -28,7 +28,8 @@ int main(void)
 
     Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
     
-    for (int i = 0; i < MAX_LIVES; i++) DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
+    for (int i = 0; i < MAX_LIVES; i++) 
+    DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
 
     Obstacle obstacles[MAX_OBSTACLES];
 
@@ -38,9 +39,9 @@ int main(void)
     }
    
     Coins coins[MAX_COINS];
-
-     for(int i = 0; i<MAX_COINS; ++i){
-        coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
+    
+    for(int i = 0; i<MAX_COINS; ++i){
+         coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
     }
 
     SetTargetFPS(60);               
@@ -61,6 +62,15 @@ int main(void)
                 gameOver = false;
                 score = 0;
                 MAX_LIVES = 3;
+
+                for (int i = 0; i< MAX_OBSTACLES; ++i){
+                    float width = GetRandomValue(50, 200);
+                    obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
+                }
+
+                for (int i = 0; i< MAX_COINS; ++i){
+                    coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
+                }
                 
                 // Press enter to change to GAMEPLAY screen
                 if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
@@ -71,75 +81,71 @@ int main(void)
 
             case GAMEPLAY:
             {
-                if (gameOver)
-                {
-                    currentScreen = ENDING;
-                }
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                {
-                    currentScreen = GAMEPLAY;
-                }
-            {
-               
                 if(!gameOver){
-                    
+                        
                     // pause functionality
                     if (IsKeyPressed(KEY_SPACE))
                     pause = !pause;
                     
                     if (!pause){
-                        
-                        //player movement logic
+                            //player movement logic
                         if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
                         player.Move ({5, 0});
                         
                         if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetRadius())
                         player.Move ({-5, 0});
-                        }
+                        
                         
                         for (int i = 0; i< MAX_OBSTACLES; ++i){
                              if(obstacles[i].IsOutOfScreen()){
                                 float width = GetRandomValue(50, 200);
-                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth - (int)width), -20.0f}, {width, 20.0f}, RED, 4.0f);
+                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
                                 }
                             
                             obstacles[i].Update();
+
+                             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                                float width = GetRandomValue(50,200);
+                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
                             
+                             MAX_LIVES --;
+                             
+                             }
+                             
+                            }
+
                         for (int i = 0; i< MAX_COINS; ++i){
                             
                             if(coins[i].IsOutOfScreen()){
-                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
+                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
                                 }
+
+                                if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                                    
+                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
+                                    
+                                score++;
+                                    
+                                 } 
                             
                             coins[i].Update();
                             
                             }
-            
-            
-            if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
-                float width = GetRandomValue(50,200);
-                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
+                            
+                        
+                             if(MAX_LIVES == 0){
+                                gameOver = true;
+
+                                }
+                    }
+                    
+                }
+
+                if (gameOver)
+                {
+                    currentScreen = ENDING;
+                }
                 
-                MAX_LIVES --;
-            }
-
-            if(MAX_LIVES == 0){
-                gameOver = true;
-            }
-
-            if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
-
-                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 0.5f);
-                
-                score++;
-            }
-            
-            }
-            
-            }
-
-            }
-
             } break;
 
             case ENDING:
