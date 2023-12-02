@@ -1,23 +1,30 @@
 #include "raylib.h"
 
-// I will start by using lecture 6 for reference
-
 #include "Player.h"
 #include "Obstacle.h"
 #include "Coins.h"
 
+//------------------------------------------------------------------------------------------
+// Types and Structures Definition
+//------------------------------------------------------------------------------------------
+typedef enum GameScreen { TITLE, GAMEPLAY, ENDING } GameScreen;
 const int MAX_OBSTACLES = 5;
 const int MAX_COINS = 5;
 int MAX_LIVES = 3;
 
-int main() {
-
-    // Determin the Game Window Width and Height
+//------------------------------------------------------------------------------------
+// Program main entry point
+//------------------------------------------------------------------------------------
+int main(void)
+{
+    // Initialization
+    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    // Initialize the Window
     InitWindow(screenWidth, screenHeight, "Watch Out!");
+
+    GameScreen currentScreen = TITLE;
 
     Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
     
@@ -37,21 +44,42 @@ int main() {
     }
 
 
-
-    // Setting the Frames Per Second
-    SetTargetFPS(60);
-
+    SetTargetFPS(60);               
     int score = 0;
     bool gameOver = false;
     bool pause = false;
+       //--------------------------------------------------------------------------------------
 
+    // Main game loop
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+        switch(currentScreen)
+        {
+            case TITLE:
+            {
 
-    // The Game Loop
-    while (!WindowShouldClose() /*WindowShouldClose returns true if esc is clicked and closes the window*/)
+                // Press enter to change to GAMEPLAY screen
+                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                {
+                    currentScreen = GAMEPLAY;
+                }
+            } break;
 
-     // gameplay logic
-     { 
-        if(!gameOver){
+            case GAMEPLAY:
+            {
+                if (gameOver)
+                {
+                    currentScreen = ENDING;
+                }
+                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                {
+                    currentScreen = GAMEPLAY;
+                }
+            {
+               
+                if(!gameOver){
 
             // pause functionality
             if (IsKeyPressed(KEY_SPACE))
@@ -105,42 +133,78 @@ int main() {
             }
          
         }
-        
+    
+     }
+            }
+            } break;
+
+            case ENDING:
+            {
+                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                {
+                    currentScreen = TITLE;
+                }
+            } break;
+            default: break;
         }
-        // Setup Canvas
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        player.Draw();
+            ClearBackground(BLACK);
 
-        for (int i = 0; i < MAX_LIVES; i++){
-        DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
-        }
+            switch(currentScreen)
+            {
+                case TITLE:
+                {
+                    DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
+                    DrawText("WATCH OUT!", 260, 160, 40, RED);
+                    DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, LIGHTGRAY);
 
-    for(int i = 0; i<MAX_OBSTACLES; ++i){
-       obstacles[i].Draw();
-    }
-    
-    for(int i = 0; i<MAX_COINS; ++i){
-       coins[i].Draw();
-    }
+                } break;
 
+                case GAMEPLAY:
+                {
+                     BeginDrawing();
+                     
+                     player.Draw();
+                     for (int i = 0; i < MAX_LIVES; i++){
+                        DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
+                        }
+                        
+                    for(int i = 0; i<MAX_OBSTACLES; ++i){
+                        obstacles[i].Draw();
+                        }
+                        
+                    for(int i = 0; i<MAX_COINS; ++i){
+                        coins[i].Draw();
+                        }
+                        
+                        DrawText(TextFormat("Score: %i", score), 10, 10, 20, LIGHTGRAY);
+                        if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
 
-    DrawText(TextFormat("Score: %i", score), 10, 10, 20, LIGHTGRAY);
+                  
 
-    if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
+                } break;
 
-    if(gameOver){
-        DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
+                case ENDING:
+                {
+                    DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
+                    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 240, 260, 12, LIGHTGRAY);
 
-    }
-        // Clear canvas to a specific color to avoid flicker
-        ClearBackground(BLACK);
+                } break;
+                
+                default: break;
+            }
 
-        // Here goes all the Game Logic
-
-        // teardown Canvas
         EndDrawing();
+        //----------------------------------------------------------------------------------
     }
-    CloseWindow();
+
+    CloseWindow();     
+    //--------------------------------------------------------------------------------------
+
     return 0;
 }
