@@ -24,6 +24,10 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Watch Out!");
 
+    InitAudioDevice();
+
+    Music music = LoadMusicStream("resources/BGMusic.wav");                    
+
     GameScreen currentScreen = TITLE;
 
     Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
@@ -55,6 +59,8 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
+        UpdateMusicStream(music);
+
         switch(currentScreen)
         {
             case TITLE:
@@ -165,6 +171,8 @@ int main(void)
 
             ClearBackground(BLACK);
 
+            PlayMusicStream(music);
+
             switch(currentScreen)
             {
                 case TITLE:
@@ -212,6 +220,10 @@ int main(void)
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
+
+    UnloadMusicStream(music);        
+
+    CloseAudioDevice(); 
 
     CloseWindow();     
     //--------------------------------------------------------------------------------------
