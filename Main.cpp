@@ -13,6 +13,9 @@ const int MAX_COINS = 5;
 int MAX_LIVES = 3;
 float TREE_HEIGHT = 190;
     float TREE_WIDTH = 104;
+float SNOWFLAKE_HEIGHT = 25;
+    float SNOWFLAKE_WIDTH = 25;
+
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -31,8 +34,10 @@ int main(void)
     Music music = LoadMusicStream("resources/BGMusic.wav");  
 
     Texture2D lives = LoadTexture("resources/Heart.png");
+    Texture2D bg = LoadTexture("resources/BG.png");   
     Texture2D trees = LoadTexture("resources/Big Tree.png");
-    Texture2D bg = LoadTexture("resources/BG.png");               
+    Texture2D snowflakes = LoadTexture("resources/Snowflake.png");
+                
 
     GameScreen currentScreen = TITLE;
 
@@ -52,7 +57,9 @@ int main(void)
     Coins coins[MAX_COINS];
     
     for(int i = 0; i<MAX_COINS; ++i){
-         coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
+        float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+        float y = (float)(-SNOWFLAKE_HEIGHT-i*60);
+        coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
     }
 
     SetTargetFPS(60);               
@@ -83,7 +90,9 @@ int main(void)
                 }
 
                 for (int i = 0; i< MAX_COINS; ++i){
-                    coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
+                    float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                    float y = (float)(-SNOWFLAKE_HEIGHT-i*60);
+                    coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
                 }
                 
                 // Press enter to change to GAMEPLAY screen
@@ -132,13 +141,16 @@ int main(void)
                         for (int i = 0; i< MAX_COINS; ++i){
                             
                             if(coins[i].IsOutOfScreen()){
-                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
+                               float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                               float y = (float)(-SNOWFLAKE_HEIGHT-i*60);
+                               coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
                                 }
 
-                                if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                            if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
                                     
-                                coins[i] = Coins({(float)GetRandomValue(0 , screenWidth-10.0f), (float)(-10.0f-i*60)}, {10.0f}, YELLOW, 2.0f);
-                                    
+                               float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                               float y = (float)(-SNOWFLAKE_HEIGHT-i*60);
+                               coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
                                 score++;
                                     
                                  } 
@@ -206,10 +218,10 @@ int main(void)
                         }
                         
                     for(int i = 0; i<MAX_COINS; ++i){
-                        coins[i].Draw();
+                        coins[i].Draw(snowflakes);
                         }
-                        
-                        DrawText(TextFormat("Score: %i", score), 10, 10, 20, LIGHTGRAY);
+                        DrawTexture(snowflakes, 10, 10, WHITE);
+                        DrawText(TextFormat(": %i", score), 60, 20, 20, DARKGRAY);
                         if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
 
                   
@@ -235,6 +247,7 @@ int main(void)
     UnloadTexture(lives); 
     UnloadTexture(trees);    
     UnloadTexture(bg);
+    UnloadTexture(snowflakes);
 
     CloseAudioDevice(); 
 
