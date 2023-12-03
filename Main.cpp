@@ -26,14 +26,16 @@ int main(void)
 
     InitAudioDevice();
 
-    Music music = LoadMusicStream("resources/BGMusic.wav");                    
+    Music music = LoadMusicStream("resources/BGMusic.wav");  
+
+    Texture2D lives = LoadTexture("resources/Heart.png");                  
 
     GameScreen currentScreen = TITLE;
 
     Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
     
     for (int i = 0; i < MAX_LIVES; i++) 
-    DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
+    DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
 
     Obstacle obstacles[MAX_OBSTACLES];
 
@@ -179,7 +181,7 @@ int main(void)
                 {
                     DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
                     DrawText("WATCH OUT!", 260, 160, 40, RED);
-                    DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, LIGHTGRAY);
+                    DrawText("PRESS ENTER to PLAY", 270, 220, 20, LIGHTGRAY);
 
                 } break;
 
@@ -189,7 +191,7 @@ int main(void)
                      
                      player.Draw();
                      for (int i = 0; i < MAX_LIVES; i++){
-                        DrawRectangle(20 + 40*i, screenHeight - 30, 35, 10, LIGHTGRAY);
+                        DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
                         }
                         
                     for(int i = 0; i<MAX_OBSTACLES; ++i){
@@ -210,7 +212,7 @@ int main(void)
                 case ENDING:
                 {
                     DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
-                    DrawText("PRESS ENTER or TAP to RETURN to TITLE SCREEN", 240, 260, 12, LIGHTGRAY);
+                    DrawText("PRESS ENTER to PLAY AGAIN", 310, 260, 12, LIGHTGRAY);
 
                 } break;
 
@@ -221,7 +223,9 @@ int main(void)
         //----------------------------------------------------------------------------------
     }
 
-    UnloadMusicStream(music);        
+    UnloadMusicStream(music);
+
+    UnloadTexture(lives);     
 
     CloseAudioDevice(); 
 
