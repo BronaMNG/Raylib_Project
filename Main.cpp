@@ -14,7 +14,7 @@
 //------------------------------------------------------------------------------------------
 typedef enum GameScreen { TITLE, GAMEPLAY, ENDING } GameScreen;
 
-//Defining Arrays
+//Defining amounts for arrays
 const int MAX_OBSTACLES = 5;
 const int MAX_COINS = 5;
 int MAX_LIVES = 3;
