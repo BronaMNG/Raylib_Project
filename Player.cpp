@@ -2,13 +2,13 @@
 
 // Making a player class
 
-Player::Player(Vector2 pos, float r, Color c)
+Player::Player(Vector2 pos, float sz, Color c)
 : position(pos),
-    radius (r), 
+    size (sz), 
     color (c){}
 
-void Player ::Draw(){
-    DrawCircleV(position, radius, color);
+void Player::Draw(Texture2D skiier){
+    DrawTextureV(skiier, position, color); 
 }
 
 void Player::Move(Vector2 offset){
@@ -17,9 +17,14 @@ void Player::Move(Vector2 offset){
 
 }
 
-float Player::GetRadius() const{
-    return radius;
+Rectangle Player::GetRect()const { 
+    Rectangle playerRect = {position.x, position.y, size, size};
+    return playerRect;
 
+}
+
+float Player::GetSize()const {
+    return size;
 }
 
 Vector2 Player::GetPosition() const{

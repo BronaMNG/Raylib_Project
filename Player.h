@@ -6,17 +6,19 @@
 class Player{
     private:
     Vector2 position;
-    float radius;
+    float size;
     Color color;
 
     public:
-    Player(Vector2 pos, float r, Color c);
+    Player(Vector2 pos, float sz, Color c);
 
-    void Draw();
+    void Draw(Texture2D skiier);
 
     void Move(Vector2);
 
-    float GetRadius()const;
+    Rectangle GetRect() const;
+
+    float GetSize() const;
     
     Vector2 GetPosition() const;
     };
