@@ -5,9 +5,10 @@
 #include "Coins.h"
 
 //For base logic (player, obstacles and collisions) lecture 6 was referenced
-//for pause functionality, Raylib example arkanoid was referenced
-//for lives, Raylib example arkanoid was referenced
-//for screen switches, Raylib example was referenced
+//for pause functionality, Raylib example arkanoid was referenced https://github.com/raysan5/raylib-games/blob/master/classics/src/arkanoid.c
+//for lives, Raylib example arkanoid was referenced https://github.com/raysan5/raylib-games/blob/master/classics/src/arkanoid.c
+//for screen switches, Raylib example was referenced https://www.raylib.com/examples.html
+//for sound implementation, Raylib example was referenced https://www.raylib.com/examples.html
 
 //------------------------------------------------------------------------------------------
 // Types and Structures Definition
