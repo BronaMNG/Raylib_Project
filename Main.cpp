@@ -33,6 +33,7 @@ int main(void)
 
     Music music = LoadMusicStream("resources/BGMusic.wav");
     Sound chime = LoadSound("resources/chime.wav");
+    Sound snow = LoadSound("resources/SnowCrunch.wav");
 
     Texture2D lives = LoadTexture("resources/Heart.png");
     Texture2D bg = LoadTexture("resources/BG.png");   
@@ -118,9 +119,15 @@ int main(void)
                         //player movement logic
                         if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetSize())
                         player.Move ({5, 0});
+
+                        if(IsKeyPressed(KEY_D))
+                        PlaySound(snow);
                         
                         if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetSize())
                         player.Move ({-5, 0});
+
+                        if(IsKeyPressed(KEY_A))
+                        PlaySound(snow);
                         
                         
                         for (int i = 0; i< MAX_OBSTACLES; ++i){
@@ -255,6 +262,7 @@ int main(void)
 
     UnloadMusicStream(music);
     UnloadSound(chime);
+    UnloadSound(snow);
 
     UnloadTexture(lives); 
     UnloadTexture(trees);    
