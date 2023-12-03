@@ -31,17 +31,18 @@ int main(void)
 
     InitAudioDevice();
 
-    Music music = LoadMusicStream("resources/BGMusic.wav");  
+    Music music = LoadMusicStream("resources/BGMusic.wav");
 
     Texture2D lives = LoadTexture("resources/Heart.png");
     Texture2D bg = LoadTexture("resources/BG.png");   
     Texture2D trees = LoadTexture("resources/Big Tree.png");
     Texture2D snowflakes = LoadTexture("resources/Snowflake.png");
+    Texture2D skiier = LoadTexture("resources/Player.png");
                 
 
     GameScreen currentScreen = TITLE;
 
-    Player player({screenWidth/2, screenHeight-50}, 20, BLUE);
+    Player player({screenWidth/2, screenHeight-50}, 45, WHITE);
     
     for (int i = 0; i < MAX_LIVES; i++) 
     DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
@@ -112,10 +113,10 @@ int main(void)
                     
                     if (!pause){
                         //player movement logic
-                        if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
+                        if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetSize())
                         player.Move ({5, 0});
                         
-                        if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetRadius())
+                        if(IsKeyDown(KEY_A)&& player.GetPosition().x> player.GetSize())
                         player.Move ({-5, 0});
                         
                         
@@ -128,7 +129,7 @@ int main(void)
                             
                             obstacles[i].Update();
 
-                             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                             if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRect())){
                                 float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
                                 float y = (float)(-TREE_HEIGHT-i*60);
                                 obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
@@ -146,12 +147,13 @@ int main(void)
                                coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
                                 }
 
-                            if (coins[i].CheckCollision(player.GetPosition(), player.GetRadius())){
+                            if (coins[i].CheckCollision(player.GetPosition(), player.GetRect())){
                                     
                                float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
                                float y = (float)(-SNOWFLAKE_HEIGHT-i*60);
                                coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
-                                score++;
+                            
+                               score++;
                                     
                                  } 
                             
@@ -208,7 +210,8 @@ int main(void)
                 {
                     DrawTexture(bg, 0, 0, WHITE);
 
-                     player.Draw();
+                     player.Draw(skiier);
+
                      for (int i = 0; i < MAX_LIVES; i++){
                         DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
                         }
@@ -248,6 +251,7 @@ int main(void)
     UnloadTexture(trees);    
     UnloadTexture(bg);
     UnloadTexture(snowflakes);
+    UnloadTexture(skiier);
 
     CloseAudioDevice(); 
 
