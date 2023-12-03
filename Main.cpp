@@ -11,6 +11,8 @@ typedef enum GameScreen { TITLE, GAMEPLAY, ENDING } GameScreen;
 const int MAX_OBSTACLES = 5;
 const int MAX_COINS = 5;
 int MAX_LIVES = 3;
+float TREE_HEIGHT = 190;
+    float TREE_WIDTH = 104;
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -22,17 +24,18 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    InitWindow(screenWidth, screenHeight, "Watch Out!");
+    InitWindow(screenWidth, screenHeight, "Slippery Slopes!");
 
     InitAudioDevice();
 
     Music music = LoadMusicStream("resources/BGMusic.wav");  
 
-    Texture2D lives = LoadTexture("resources/Heart.png");                  
+    Texture2D lives = LoadTexture("resources/Heart.png");
+    Texture2D trees = LoadTexture("resources/Big Tree.png");               
 
     GameScreen currentScreen = TITLE;
 
-    Player player({screenWidth/2, screenHeight-50}, 20, RAYWHITE);
+    Player player({screenWidth/2, screenHeight-50}, 20, BLUE);
     
     for (int i = 0; i < MAX_LIVES; i++) 
     DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
@@ -40,8 +43,9 @@ int main(void)
     Obstacle obstacles[MAX_OBSTACLES];
 
     for(int i = 0; i<MAX_OBSTACLES; ++i){
-        float width = GetRandomValue(50,200);
-        obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
+        float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+        float y = (float)(-TREE_HEIGHT-i*60);
+        obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
     }
    
     Coins coins[MAX_COINS];
@@ -72,8 +76,9 @@ int main(void)
                 MAX_LIVES = 3;
 
                 for (int i = 0; i< MAX_OBSTACLES; ++i){
-                    float width = GetRandomValue(50, 200);
-                    obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
+                    float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                    float y = (float)(-TREE_HEIGHT-i*60);
+                    obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
                 }
 
                 for (int i = 0; i< MAX_COINS; ++i){
@@ -81,7 +86,7 @@ int main(void)
                 }
                 
                 // Press enter to change to GAMEPLAY screen
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
                 {
                     currentScreen = GAMEPLAY;
                 }
@@ -106,17 +111,18 @@ int main(void)
                         
                         for (int i = 0; i< MAX_OBSTACLES; ++i){
                              if(obstacles[i].IsOutOfScreen()){
-                                float width = GetRandomValue(50, 200);
-                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
+                               float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                               float y = (float)(-TREE_HEIGHT-i*60);
+                               obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
                                 }
                             
                             obstacles[i].Update();
 
                              if(obstacles[i].CheckCollision(player.GetPosition(), player.GetRadius())){
-                                float width = GetRandomValue(50,200);
-                                obstacles[i] = Obstacle({(float)GetRandomValue(0, screenWidth-(int)width), (float)(-20.0f-i*60)}, {width, 20.0f}, RED, 4.0f);
-                            
-                             MAX_LIVES --;
+                                float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
+                                float y = (float)(-TREE_HEIGHT-i*60);
+                                obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
+                                MAX_LIVES --;
                              
                              }
                              
@@ -158,7 +164,7 @@ int main(void)
 
             case ENDING:
             {
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsGestureDetected(GESTURE_TAP))
                 {
                     currentScreen = TITLE;
                 }
@@ -171,7 +177,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(BLACK);
+            ClearBackground(RAYWHITE);
 
             PlayMusicStream(music);
 
@@ -179,8 +185,8 @@ int main(void)
             {
                 case TITLE:
                 {
-                    DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
-                    DrawText("WATCH OUT!", 260, 160, 40, RED);
+                    DrawRectangle(0, 0, screenWidth, screenHeight, WHITE);
+                    DrawText("SLIPPERY SLOPES!", 200, 160, 40, BLUE);
                     DrawText("PRESS ENTER to PLAY", 270, 220, 20, LIGHTGRAY);
 
                 } break;
@@ -195,7 +201,7 @@ int main(void)
                         }
                         
                     for(int i = 0; i<MAX_OBSTACLES; ++i){
-                        obstacles[i].Draw();
+                        obstacles[i].Draw(trees);
                         }
                         
                     for(int i = 0; i<MAX_COINS; ++i){
@@ -211,7 +217,7 @@ int main(void)
 
                 case ENDING:
                 {
-                    DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, RED);
+                    DrawText("GAME OVER", screenWidth/2 -60, screenHeight/2, 20, BLUE);
                     DrawText("PRESS ENTER to PLAY AGAIN", 310, 260, 12, LIGHTGRAY);
 
                 } break;
