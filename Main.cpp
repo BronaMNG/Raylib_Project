@@ -31,7 +31,8 @@ int main(void)
     Music music = LoadMusicStream("resources/BGMusic.wav");  
 
     Texture2D lives = LoadTexture("resources/Heart.png");
-    Texture2D trees = LoadTexture("resources/Big Tree.png");               
+    Texture2D trees = LoadTexture("resources/Big Tree.png");
+    Texture2D bg = LoadTexture("resources/BG.png");               
 
     GameScreen currentScreen = TITLE;
 
@@ -101,7 +102,7 @@ int main(void)
                     pause = !pause;
                     
                     if (!pause){
-                            //player movement logic
+                        //player movement logic
                         if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetRadius())
                         player.Move ({5, 0});
                         
@@ -193,8 +194,8 @@ int main(void)
 
                 case GAMEPLAY:
                 {
-                     BeginDrawing();
-                     
+                    DrawTexture(bg, 0, 0, WHITE);
+
                      player.Draw();
                      for (int i = 0; i < MAX_LIVES; i++){
                         DrawTexture( lives, 20 + 40*i, screenHeight - 40, WHITE);
@@ -231,7 +232,9 @@ int main(void)
 
     UnloadMusicStream(music);
 
-    UnloadTexture(lives);     
+    UnloadTexture(lives); 
+    UnloadTexture(trees);    
+    UnloadTexture(bg);
 
     CloseAudioDevice(); 
 
