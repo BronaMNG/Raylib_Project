@@ -1,21 +1,18 @@
 #include "Obstacle.h"
 
-Obstacle::Obstacle(Vector2 pos, Vector2 sz, Color c, float s)
+Obstacle::Obstacle(Vector2 pos, Vector2 sz, float s)
     : position(pos),
       size(sz),
-      color(c),
       speed(s) {}
 
 Obstacle::Obstacle()
     : position({0, 0}),
       size({0, 0}),
-      color(BLANK),
       speed(0.0f) {}
 
-void Obstacle::Draw() {
-    DrawRectangleV(position, size, color);
+void Obstacle::Draw(Texture2D trees) {
+    DrawTextureV(trees, position, WHITE);
 }
-
 void Obstacle::Update() {
     position.y += speed;
 }
