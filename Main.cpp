@@ -32,6 +32,7 @@ int main(void)
     InitAudioDevice();
 
     Music music = LoadMusicStream("resources/BGMusic.wav");
+    Sound chime = LoadSound("resources/chime.wav");
 
     Texture2D lives = LoadTexture("resources/Heart.png");
     Texture2D bg = LoadTexture("resources/BG.png");   
@@ -75,6 +76,7 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
         UpdateMusicStream(music);
+        SetMusicVolume(music, 0.2f); 
 
         switch(currentScreen)
         {
@@ -112,6 +114,7 @@ int main(void)
                     pause = !pause;
                     
                     if (!pause){
+
                         //player movement logic
                         if(IsKeyDown(KEY_D)&& player.GetPosition().x< screenWidth-player.GetSize())
                         player.Move ({5, 0});
@@ -133,6 +136,7 @@ int main(void)
                                 float x = (float)GetRandomValue(0, screenWidth-(int)TREE_WIDTH);
                                 float y = (float)(-TREE_HEIGHT-i*60);
                                 obstacles[i] = Obstacle({x, y}, {TREE_WIDTH, TREE_HEIGHT}, 4.0f);
+
                                 MAX_LIVES --;
                              
                              }
@@ -154,6 +158,8 @@ int main(void)
                                coins[i] = Coins({x, y}, {SNOWFLAKE_WIDTH, SNOWFLAKE_HEIGHT}, 2.0f);
                             
                                score++;
+
+                               PlaySound(chime);
                                     
                                  } 
                             
@@ -225,7 +231,9 @@ int main(void)
                         }
                         DrawTexture(snowflakes, 10, 10, WHITE);
                         DrawText(TextFormat(": %i", score), 60, 20, 20, DARKGRAY);
-                        if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
+                    
+                    
+                    if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
 
                   
 
@@ -246,6 +254,7 @@ int main(void)
     }
 
     UnloadMusicStream(music);
+    UnloadSound(chime);
 
     UnloadTexture(lives); 
     UnloadTexture(trees);    
