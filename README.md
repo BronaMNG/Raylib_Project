@@ -13,6 +13,7 @@ Press Space to pause
 Assets:
 Trees: https://stealthix.itch.io/rpg-nature-tileset
 Snow plane: https://stealthix.itch.io/rpg-nature-tileset
+Hearts: https://kaboff.itch.io/600-animation-ui-pack-8x8
 Sprite: (made by me)
 Snowflakes: (made by me)
 Music: https://pixabay.com/music/christmas-enchanted-chimes-177906/
