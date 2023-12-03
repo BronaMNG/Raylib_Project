@@ -17,9 +17,9 @@ void Obstacle::Update() {
     position.y += speed;
 }
 
-bool Obstacle::CheckCollision(Vector2 playerPosition, float playerRadius) {
+bool Obstacle::CheckCollision(Vector2 playerPosition, Rectangle playerRect) {
     Rectangle obstacleRect = {position.x, position.y, size.x, size.y};
-    return CheckCollisionCircleRec(playerPosition, playerRadius, obstacleRect);
+    return CheckCollisionRecs(obstacleRect, playerRect);
 }
 
 bool Obstacle::IsOutOfScreen() {

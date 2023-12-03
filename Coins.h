@@ -20,7 +20,7 @@ class Coins{
 
     void Update();
 
-    bool CheckCollision(Vector2 playerPosition, float playerRadius);
+    bool CheckCollision(Vector2 playerPosition, Rectangle playerRect);
 
     bool IsOutOfScreen();
 };

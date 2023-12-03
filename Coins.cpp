@@ -18,10 +18,9 @@ void Coins::Update() {
     position.y += speed;
 }
 
-bool Coins::CheckCollision(Vector2 playerPosition, float playerRadius) {
+bool Coins::CheckCollision(Vector2 playerPosition, Rectangle playerRect) {
     Rectangle coinsRect = {position.x, position.y, size.x, size.y};
-    return CheckCollisionCircleRec(playerPosition, playerRadius, coinsRect);
-    //Changed from CheckCollisionCircleRec because we are checking the collision of two circles (player and coins)
+    return CheckCollisionRecs(coinsRect, playerRect);
 }
 
 bool Coins::IsOutOfScreen() {
