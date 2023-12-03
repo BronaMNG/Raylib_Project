@@ -1,19 +1,17 @@
 #include "Coins.h"
 
-Coins::Coins(Vector2 pos, float r, Color c, float s)
+Coins::Coins(Vector2 pos, Vector2 sz, float s)
   : position(pos),
-      radius(r),
-      color(c),
+      size(sz),
       speed(s) {}
 
 Coins::Coins()
     : position({0, 0}),
-      radius(0.0f),
-      color(BLANK),
+      size({0, 0}),
       speed(0.0f) {}
 
-void Coins::Draw(){
-    DrawCircleV(position, radius, color);
+void Coins::Draw(Texture2D snowflakes){
+    DrawTextureV(snowflakes, position, WHITE);
 }
 
 void Coins::Update() {
@@ -21,10 +19,11 @@ void Coins::Update() {
 }
 
 bool Coins::CheckCollision(Vector2 playerPosition, float playerRadius) {
-    return CheckCollisionCircles(position, radius, playerPosition, playerRadius); 
+    Rectangle coinsRect = {position.x, position.y, size.x, size.y};
+    return CheckCollisionCircleRec(playerPosition, playerRadius, coinsRect);
     //Changed from CheckCollisionCircleRec because we are checking the collision of two circles (player and coins)
 }
 
 bool Coins::IsOutOfScreen() {
-    return position.y > GetScreenHeight() + radius;
+    return position.y > GetScreenHeight() + size.y;
 }

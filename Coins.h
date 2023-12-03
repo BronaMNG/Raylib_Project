@@ -8,16 +8,15 @@
 class Coins{
     private:
     Vector2 position;
-    float radius;
-    Color color;
+    Vector2 size;
     float speed;
 
     public:
-    Coins(Vector2 pos, float r, Color c, float s);
+    Coins(Vector2 pos, Vector2 sz, float s);
 
     Coins();
 
-    void Draw();
+    void Draw(Texture2D snowflakes);
 
     void Update();
 
